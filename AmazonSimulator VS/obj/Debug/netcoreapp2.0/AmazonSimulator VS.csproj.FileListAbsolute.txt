@@ -1,0 +1,11 @@
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\bin\Debug\netcoreapp2.0\AmazonSimulator VS.deps.json
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\bin\Debug\netcoreapp2.0\AmazonSimulator VS.runtimeconfig.json
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\bin\Debug\netcoreapp2.0\AmazonSimulator VS.runtimeconfig.dev.json
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\bin\Debug\netcoreapp2.0\AmazonSimulator VS.dll
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\bin\Debug\netcoreapp2.0\AmazonSimulator VS.pdb
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\obj\Debug\netcoreapp2.0\AmazonSimulator VS.csprojAssemblyReference.cache
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\obj\Debug\netcoreapp2.0\AmazonSimulator VS.csproj.CoreCompileInputs.cache
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\obj\Debug\netcoreapp2.0\AmazonSimulator VS.AssemblyInfoInputs.cache
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\obj\Debug\netcoreapp2.0\AmazonSimulator VS.AssemblyInfo.cs
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\obj\Debug\netcoreapp2.0\AmazonSimulator VS.dll
+C:\Users\redma\OneDrive\Bureaublad\School\DijkstraBauke\AmazonSimulator VS\obj\Debug\netcoreapp2.0\AmazonSimulator VS.pdb

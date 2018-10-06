@@ -1,0 +1,19 @@
+newmtl phong1SG
+
+Ka 1.00 1.00 1.00
+Kd 1.00 1.00 1.00
+Ks 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+illum 4
+map_Kd metal.JPG
+Ni 1.00
+
+newmtl lambert2g
+
+Ka 1.00 1.00 1.00
+Kd 1.00 1.00 1.00
+Ks 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+illum 4
+map_Kd metal.JPG
+Ni 1.00
