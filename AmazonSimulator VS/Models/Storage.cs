@@ -7,49 +7,34 @@ namespace Models
 {
     public  class Storage
     {
-        List<Rek> Stored = new List<Rek>();
+        public List<Rek> Stored = new List<Rek>();
         World w;
+        double x_size;
+        double z_size;
 
-        double Max_Barrels;
         double position_x;
         double position_y;
         double position_z;
 
-        double x_size;
-        double z_size;
-
         public Node DropoffNode;
-        /// <summary>
-        /// Storage area to store barrels
-        /// </summary>
-        /// <param name="n">The node the robot ahs to reach to drop off it's load. </param>
-        /// <param name="x_size">Horizontal size</param>
-        /// <param name="z_size">Vertical size</param>
-        /// <param name="x_position">position</param>
-        /// <param name="y_position">position</param>
-        /// <param name="z_position">position</param>
-        /// <param name="currentworld">A reference to the current world object</param>
-        public Storage(Node n,double x_size,double z_size, double x_position, double y_position, double z_position,World currentworld)
+
+        public Storage(Node n, double x, double y, double z,World currentworld)
         {
             DropoffNode = n;
-            position_x = x_position;
-            position_y = y_position;
-            position_z = z_position;
-
-            this.x_size = x_size;
-            this.z_size = z_size;
-
-            Max_Barrels = Convert.ToInt64(Math.Floor(x_size / 2.5));
- 
+            position_x = x;
+            position_y = y;
+            position_z = z;
             this.w = currentworld;
 
             // Have the Storage element start off with a random number of Rek's
             Random r = new Random();
-            int q = r.Next(1, 3);
+            int q = r.Next(1, 5);
+            x_size = 25;
+            z_size = 5;
 
             for (int i = 0; i < q; i++)
             {
-                Rek newrek = new Rek((i*1.5)+position_x,0, position_z + 2.5,0,0,0);
+                Rek newrek = new Rek((i*2.5)+position_x,0, position_z + 2.5,0,0,0);
                 newrek.readyforpickup = false;
 
                 // If i have spare time later, edit this to give it a random position in the list/ array
@@ -58,25 +43,32 @@ namespace Models
             RenderRekken();
 
         }
-        /// <summary>
-        /// Accept a Rek from a robot, and store it
-        /// </summary>
-        /// <param name="r">rek to be stored</param>
+
+        /*public void AddRek(Rek r)
+        {
+            r.readyforpickup = false;
+            for (int i = 0; i < Stored.Count; i++)
+            {
+                if (Stored[i] == null)
+                {
+                    Stored[i] = r;
+                    r.Move((i * 2.5) + position_x, 0, position_z + 2.5);
+                }
+            }
+        }*/
+
         public void AddRek(Rek r)
         {
             r.readyforpickup = false;
-            for (int i = 0; i <10; i++)
-            {
-                if (Stored.ElementAtOrDefault(i) == null)
-                {
-                    r.Move((i*1.5)+position_x,0,position_z+2.5);
-                    Stored.Add(r);
-                    return;
-                }
-            }
+            
+            Stored.Add(r);
+            r.Move((Stored.Count * 2.5) + position_x, 0, position_z + 2.5);
+            
+            
         }
+
         /// <summary>
-        /// Spawns the initial rekken in the Rekken list into the world
+        /// Spawns the rekken in the Rekken list into the world
         /// </summary>
         public void RenderRekken()
         {
@@ -85,19 +77,6 @@ namespace Models
                 w.worldObjects.Add(rek);
             }
            
-        }
-        /// <summary>
-        /// Returns a value  on whether or not the storage area is full
-        /// </summary>
-        /// <returns> Whether or not this storage area is full</returns>
-        public bool IsFull()
-        {
-            if (Stored.Count >=Max_Barrels)
-            {
-                return true;
-            }
-            else { return false; }
-          
         }
 
     }

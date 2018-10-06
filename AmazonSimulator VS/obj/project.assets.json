@@ -12669,11 +12669,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\redma\\OneDrive\\Bureaublad\\School\\DijkstraBauke\\AmazonSimulator VS\\AmazonSimulator VS.csproj",
-      "projectName": "AmazonSimulator VS",
-      "projectPath": "C:\\Users\\redma\\OneDrive\\Bureaublad\\School\\DijkstraBauke\\AmazonSimulator VS\\AmazonSimulator VS.csproj",
+      "projectUniqueName": "C:\\Users\\redma\\OneDrive\\Bureaublad\\School\\DijkstraAS\\AmazonSimulator VS\\AmazonSimulator VS redmar.csproj",
+      "projectName": "AmazonSimulator VS redmar",
+      "projectPath": "C:\\Users\\redma\\OneDrive\\Bureaublad\\School\\DijkstraAS\\AmazonSimulator VS\\AmazonSimulator VS redmar.csproj",
       "packagesPath": "C:\\Users\\redma\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\redma\\OneDrive\\Bureaublad\\School\\DijkstraBauke\\AmazonSimulator VS\\obj\\",
+      "outputPath": "C:\\Users\\redma\\OneDrive\\Bureaublad\\School\\DijkstraAS\\AmazonSimulator VS\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -9,138 +9,76 @@ namespace Models
     {
         public List<Abstract_Model> worldObjects = new List<Abstract_Model>();
         private List<IObserver<Command>> observers = new List<IObserver<Command>>();
-        private List<Robot> robotlist = new List<Robot>();
-        Robot r;
-        Robot walle;
-        Robot irongiant;
 
-        Truck t;
-        public Dijkstra d;
+        //Robot r;
+        List<Robot> robots;
+        //Trein t;
+        Dijkstra d;
         public List<Node> NodeList = new List<Node>();
         public List<Storage> StorageSpots = new List<Storage>();
       
-
-       
-        public World()
-        {
-           
-            // Create the graph, and create the nodes the robot can move to
-            d = new Dijkstra();
-            InitialNodes();
-           
-            // Create the four storage area's 
-            Storage storage1 = new Storage(NodeList[6], 10, 5, 3, 0, 5, this);
-            Storage storage2 = new Storage(NodeList[8], 10, 5, 3, 0, 12.5, this);
-            Storage storage3 = new Storage(NodeList[10], 35, 5, 20, 0, 5, this);
-            Storage storage4 = new Storage(NodeList[12], 10, 5, 3, 0, 22.5, this);
-            StorageSpots.Add(storage1);
-            StorageSpots.Add(storage2);
-            StorageSpots.Add(storage3);
-            StorageSpots.Add(storage4);
-
-            //Create the train
-            t = SpawnTruck(-20,0,0);
-
-            //a few Rek's for testing purposes
-            Rek q = CreateRek(12,0,0);
-            Rek w = CreateRek(15, 0, 0);
-            Rek z = CreateRek(18, 0, 0);
-            Rek a = CreateRek(18, 0, 0);
-            Rek b = CreateRek(18, 0, 0);
-            Rek c = CreateRek(18, 0, 0);
-
-            // Create the robots
-            r = CreateRobot(12, 0, 0);
-            walle = CreateRobot(15, 0, 0);
-            irongiant = CreateRobot(18, 0, 0);
-            robotlist.Add(r);
-            robotlist.Add(walle);
-            robotlist.Add(irongiant);
-
-            // Each time this function is called, tells a single robot to pick up a Rek. There are three robots
-            CommandPickup();
-            CommandPickup();
-            CommandPickup();
-
-
-        }
-        /// <summary>
-        /// Add a 3D node to the Nodelist
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
         public void addNode(char node, double x, double y, double z)
         {
             Node n = new Node(node, x, y, z);
             NodeList.Add(n);
         }
-        //
-        /// <summary>
-        /// Tell a single, nearby  robot to pick up an item
-        /// </summary>
-        public void CommandPickup()
+        public World()
         {
-            char start = 'B';
-            char stop = ' ';
-            // Check which storagespot still has space
-            for (int i = 0; i < StorageSpots.Count; i++)
-            {
-                if (!StorageSpots[i].IsFull())
-                {
-                    stop = StorageSpots[i].DropoffNode.name;
-                }
-            }
-            // Tell a  nearby robot to  pick up an item
-            for (int i = 0; i < robotlist.Count; i++)
-            {
-                if (robotlist[i].idle)
-                {
-                  
-                    if (robotlist[i].PickupRek())
-                    {
-                        robotlist[i].idle = false;
-                        robotlist[i].SetRoute(GenerateRoute(start, stop), stop);
-                    }
-                    else
-                    {
-                        Console.WriteLine("No Nearby barrels to pick up for robot "+ robotlist[i]);
-                    }
-                  
-                    return;
-                }
-                
-            }
-        }
-        /// <summary>
-        /// Set the initial 3D nodes for the nodelist
-        /// </summary>
-        public void InitialNodes()
-        {
+           
+            // Create the graph, and create the nodes the robot can move to
+            d = new Dijkstra();
+
             addNode('A', 0, 0, 0);
             addNode('B', 15, 0, 0);
             addNode('C', 30, 0, 0);
             addNode('D', 0, 0, 30);
             addNode('E', 30, 0, 30);
 
-            addNode('F', 15, 0, 5);
-            addNode('G', 12, 0, 5);
-            addNode('H', 15, 0, 15);
-            addNode('I', 12, 0, 15);
-            addNode('J', 21, 0, 15);
-            addNode('K', 21, 0, 12);
-            addNode('L', 21, 0, 25);
-            addNode('M', 12, 0, 25);
-            addNode('N', 10, 0, 30);
-            addNode('O', 30, 0, 15);
-        }
+            Storage storage1 = new Storage(NodeList[0], 5, 0, 5, this);
+            StorageSpots.Add(storage1);
 
+            // g.shortest_path('A', 'H').ForEach(x => Console.WriteLine(x));
+            SpawnTrein(-60, 0, -5);
+            
+            // List<char> paths = d.shortest_path('A','F');
+            
+            this.robots = new List<Robot>();
+            for(int i = 0; i < 2; i++)
+            {
+                Robot r = CreateRobot((i * 2) + 15, 0, 0);
+                this.robots.Add(r);
+            }
+            
+
+            //CommandPickup();
+           // MoveModel(r, 50, 0, 0);
+        }
+        //
+
+        public void CommandPickup(Rek k, bool atTrain, Robot _r)
+        {
+            // Tell a robot to come pick up an item
+            _r.idle = false;
+            _r.rekToCarry = k;
+            if (atTrain)
+            {
+                //Als B magazijn is en A trein
+                // Move k (rekToCarry van de robot) van trein(A) naar  magazijn(B)
+                _r.SetRoute(GenerateRoute('A', 'B'), 'B');
+            } else
+            {
+                //Als B magazijn is en A trein
+                // Move k (rekToCarry van de robot) van magazijn(B) naar trein(A)
+                _r.SetRoute(GenerateRoute('B', 'A'), 'A');
+            }
+            
+            //r.PickupRek();
+        }
         /// <summary>
         /// Returns a route to a positon , and back again
         /// </summary>
-        /// <param name="start">start char</param>
-        /// <param name="end">end char</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <returns> A list to and from the target</returns>
         public List<char> GenerateRoute(char start , char end)
         {
@@ -151,20 +89,70 @@ namespace Models
             Route.AddRange(Terugweg);
             return Route;
         }
-        public List<char> GenerateRoute(char start, char end,bool onewayticket)
+
+        private Trein SpawnTrein(double x, double y, double z)
         {
-            List<char> Route = d.shortest_path(start, end);
-            Route.Reverse();
-            return Route;
-        }
-        private Truck SpawnTruck(double x, double y, double z)
-        {
-            Truck t = new Truck(x, y, z, 0, 0, 0);
+            Trein t = new Trein(x, y, z, 0, 0, 0, this);
+            t.Rotate(0, 89.55, 0);
+            t.speed = 0.6;
             worldObjects.Add(t);
+            //CreateRek(15,0,-30);
+           
             return t;
+
         }
-        private Rek CreateRek(double x, double y, double z)
+
+        public void TrainArrived(Trein _t, Rek cargo)
         {
+            //Word aangeroepen wanneer een trein (_t) bij het loading dock is
+            cargo.readyforpickup = true;
+            
+            //Loop door robots en laat een idle robot de cargo ophalen
+            foreach(Robot r in this.robots)
+            {
+                if (r.idle)
+                {
+                    CommandPickup(cargo, true, r);
+                    r.idle = false;
+                    break;
+                }
+            }
+
+            //Loop door robots een laat een idle robot een rek uit de storage naar de trein brengen
+            foreach (Robot r in this.robots)
+            {
+                foreach (Storage s in this.StorageSpots)
+                {
+                    for (int i = 0; i < s.Stored.Count; i++)
+                    {
+                        Rek rek = s.Stored[i];
+                        if (r.idle)
+                        {
+                            s.Stored.Remove(rek);
+                            rek.readyforpickup = true;
+                            r.trainToLoad = _t;
+                            CommandPickup(rek, false, r);
+                            r.idle = false;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public void TrainDeparted(Trein _t)
+        {
+            // Delete oude trein
+            this.worldObjects.Remove(_t.CarriedRek);
+            this.worldObjects.Remove(_t);
+
+            //Maak nieuwe trein
+            this.SpawnTrein(-60, 0, -5);
+        }
+            
+        public Rek CreateRek(double x, double y, double z)
+        {
+            
             Rek rek = new Rek (x, y, z, 0, 0, 0);
             worldObjects.Add(rek);
             return rek;
@@ -172,6 +160,11 @@ namespace Models
         private Robot CreateRobot(double x, double y, double z)
         {
             Robot constructorrobot = new Robot(x, y, z, 0, 0, 0,this);
+
+            constructorrobot.idle = true;
+            constructorrobot.speed = 0.6;
+
+
             worldObjects.Add(constructorrobot);
             return constructorrobot;
         }
@@ -253,6 +246,9 @@ namespace Models
 
         public bool Update(int tick)
         {
+
+            
+
             for (int i = 0; i < worldObjects.Count; i++)
             {
                 Abstract_Model u = worldObjects[i];

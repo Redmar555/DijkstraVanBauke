@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="Dejavu.js"></script>
     <title>SimulationView</title>
 
 
@@ -12,25 +11,13 @@
 <body style="margin:0px;padding:0px;overflow:hidden;">
 
 
-    <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <script src="three.min.js"></script>
+
     <script src="OBJLoader.js"></script>
     <script src="MTLLoader.js"></script>
-    <script src="OrbitControls.js"></script>
-    <audio loop id="music" preload="auto" style="display: none">
-        <source src="sound/dejavu.mp3" type="audio/mpeg">
-    </audio>
-    <div id="overlay">
-        <div>
-            <button id="startButton">????</button>
-         
-        </div>
-    </div>
 
-    <script>
-        var startButton = document.getElementById('startButton');
-        startButton.addEventListener('click', Dejavu);
-    </script>
+    <script src="OrbitControls.js"></script>
+
     <script>
         function parseCommand(input = "") {
             return JSON.parse(input);
@@ -63,14 +50,12 @@
                 window.addEventListener('resize', onWindowResize, false);
 
                 var geometry = new THREE.PlaneGeometry(30, 30, 32);
-                var material = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().load("textures/plane_bg.JPG"), side: THREE.DoubleSide });
+                var material = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load("textures/plane_bg.JPG"), side: THREE.DoubleSide });
                 var plane = new THREE.Mesh(geometry, material);
 
                 var backgroundworld = new THREE.PlaneGeometry(300, 300, 32);
-                var backgroundmaterial = new THREE.MeshPhongMaterial({ map: new THREE.TextureLoader().load("textures/big_bg.JPG"), side: THREE.DoubleSide });
+                var backgroundmaterial = new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/plane_bg.JPG"), side: THREE.DoubleSide });
                 var backgroundplane = new THREE.Mesh(backgroundworld, backgroundmaterial);
-
-
 
                 plane.rotation.x = Math.PI / 2.0;
                 plane.position.x = 15;
@@ -89,10 +74,24 @@
 
                 var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
                 scene.add(directionalLight);
+              //  pointlight.position
 
+                // skybox
+                //var skyboxGeometry = new THREE.BoxGeometry(200, 200, 200);
+                //var SkyboxMaterials = [
+                //    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("3dmodels/metal.JPG"), side: THREE.DoubleSide }),  //left
+                //    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("3dmodels/metal.JPG"), side: THREE.DoubleSide }),  //right
+                //    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("3dmodels/metal.JPG"), side: THREE.DoubleSide }),  //top
+                //    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("3dmodels/metal.JPG"), side: THREE.DoubleSide }),  //bottom
+                //    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("3dmodels/metal.JPG"), side: THREE.DoubleSide }),  //front
+                //    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("3dmodels/metal.JPG"), side: THREE.DoubleSide }), //back
+                //];
+                //var skyboxMaterial = new THREE.MeshFaceMaterial(SkyboxMaterials);
+                //var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+                //scene.add(skybox);
 
                 var sphericalSkyboxGemotery = new THREE.SphereGeometry(150, 32, 32);
-
+              
                 var sphericalSkyboxMaterial = new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("textures/skybox_texture.JPG"), side: THREE.DoubleSide });
                 var sphericalSkybox = new THREE.Mesh(sphericalSkyboxGemotery, sphericalSkyboxMaterial);
                 sphericalSkybox.position.y = 15;
@@ -118,8 +117,8 @@
                             .setMaterials(materials)
                             .load(modelName, function (object) {
                                 onload(object);
-                                // object.position.y = - 95;
-                                // scene.add(object);
+                               // object.position.y = - 95;
+                               // scene.add(object);
                             }, function () { }, function (e) { console.log("Load error"); console.log(e); });
 
                     });
@@ -153,14 +152,10 @@
                             var material = new THREE.MeshFaceMaterial(cubeMaterials);
                             var robot = new THREE.Mesh(geometry, material);
                             robot.position.y = 0.15;
-                            var pointlight = new THREE.PointLight(0xff0000)
-                            pointlight.position.y = 0.55
-                            pointlight.distance = 50;
-                            pointlight.castShadow = true;
 
                             var group = new THREE.Group();
                             group.add(robot);
-                            group.add(pointlight);
+
                             scene.add(group);
                             worldObjects[command.parameters.guid] = group;
                         } else if (command.parameters.type == "rek") {
@@ -171,20 +166,20 @@
                             scene.add(Rek);
                             worldObjects[command.parameters.guid] = Rek;
                             loadOBJModel("/3dmodels/barrel/", "barrel.obj", "/3dmodels/barrel/", "barrel.mtl", (mesh) => {
-                                mesh.scale.set(0.5, 0.5, 0.5);
-
+                                mesh.scale.set(1, 1, 1);
+                                
                                 Rek.add(mesh)
                             });
 
 
-                        } else if (command.parameters.type == "truck") {
+                        } else if (command.parameters.type == "trein") {
 
                             var Rek = new THREE.Group();
                             Rek.rotation.y += Math.PI;
                             Rek.position.z = 500;
                             scene.add(Rek);
                             worldObjects[command.parameters.guid] = Rek;
-                            loadOBJModel("/3dmodels/", "male02.obj", "/3dmodels/", "male02.mtl", (mesh) => {
+                            loadOBJModel("/3dmodels/", "Train.obj", "/3dmodels/", "Train.mtl", (mesh) => {
                                 mesh.scale.set(0.1, 0.1, 0.1);
                                 Rek.add(mesh)
                             });
